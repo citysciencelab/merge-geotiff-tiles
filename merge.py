@@ -11,12 +11,15 @@ BASE_DIRECTORY = "./"
 merged_tiles = []
 merged_tiles_count = 0
 
+# prepare output dir
+out_dir_path = os.path.join(BASE_DIRECTORY, OUT_DIR_NAME)
+if os.path.isdir(out_dir_path):
+    print(f"removing old {out_dir_path}")
+    shutil.rmtree(out_dir_path)
+os.mkdir(out_dir_path)
+
+# iterate through sub directories
 for path, folders, files in os.walk(BASE_DIRECTORY):
-    out_dir_path = os.path.join(BASE_DIRECTORY, OUT_DIR_NAME)
-    if os.path.isdir(out_dir_path):
-        print(f"removing old {out_dir_path}")
-        shutil.rmtree(out_dir_path)
-    os.mkdir(out_dir_path)
     for folder_name in folders:
         _path = os.path.join(BASE_DIRECTORY, folder_name)
         print(f"iterating over tiles in {_path}")
