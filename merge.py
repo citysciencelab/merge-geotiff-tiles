@@ -28,7 +28,7 @@ for path, folders, files in os.walk(BASE_DIRECTORY):
             src = rasterio.open(tile_path)
             src_files = [src]
             out_path = os.path.join(out_dir_path, tile)
-            for other_folder in [d for d in folders if d != folder_name]:
+            for other_folder in [d for d in folders if d != folder_name and d != OUT_DIR_NAME]:
                 print(f"comparing {tile_path} to files in {other_folder}")
                 other_path = os.path.join(BASE_DIRECTORY, other_folder)
                 matching_tile = next((f_name for f_name in os.listdir(other_path) if f_name == tile), None)
@@ -37,7 +37,7 @@ for path, folders, files in os.walk(BASE_DIRECTORY):
                     matching_tile_path = os.path.join(other_path, matching_tile)
                     print(matching_tile_path)
                     src_files.append(rasterio.open(matching_tile_path))
-            if len(src_files) > 0:
+            if len(src_files) > 1:
                 print(f"found {len(src_files)} matching tiles, merging ...")
                 merged, out_trans = merge(src_files)
                 out_meta = src.meta.copy()
